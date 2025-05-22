@@ -11,11 +11,11 @@ import (
 	"github.com/gocolly/colly/v2"
 	"golang.org/x/text/language"
 
-	"github.com/summer-lighting/metatube-sdk-go/common/parser"
-	"github.com/summer-lighting/metatube-sdk-go/model"
-	"github.com/summer-lighting/metatube-sdk-go/provider"
-	"github.com/summer-lighting/metatube-sdk-go/provider/fc2/fc2util"
-	"github.com/summer-lighting/metatube-sdk-go/provider/internal/scraper"
+	"github.com/metatube-community/metatube-sdk-go/common/parser"
+	"github.com/metatube-community/metatube-sdk-go/model"
+	"github.com/metatube-community/metatube-sdk-go/provider"
+	"github.com/metatube-community/metatube-sdk-go/provider/fc2/fc2util"
+	"github.com/metatube-community/metatube-sdk-go/provider/internal/scraper"
 )
 
 var _ provider.MovieProvider = (*FC2)(nil)
@@ -33,6 +33,21 @@ const (
 
 type FC2 struct {
 	*scraper.Scraper
+}
+
+// ParseToDate 将 "2023/06/05" 格式的字符串转换为 dt.Date
+func ParseToDate(dateStr string) (dt.Date, error) {
+	layout := "2006/01/02"
+	t, err := time.Parse(layout, dateStr)
+	if err != nil {
+		return dt.Date{}, err
+	}
+
+	return dt.Date{
+		Year:  t.Year(),
+		Month: int(t.Month()),
+		Day:   t.Day(),
+	}, nil
 }
 
 func New() *FC2 {
@@ -120,7 +135,7 @@ func (fc2 *FC2) GetMovieInfoByURL(rawURL string) (info *model.MovieInfo, err err
 		key, value = strings.TrimSpace(key), strings.TrimSpace(value)
 		switch key {
 		case "Sale Day", "販売日":
-			info.ReleaseDate = parser.ParseDateForFc(value)
+			info.ReleaseDate = fc2.ParseToDate(value)
 		case "Product ID", "商品ID":
 			// Fallback only:
 			if productID := fc2util.ParseNumber(value); productID != id {
