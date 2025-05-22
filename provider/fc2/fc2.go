@@ -12,6 +12,9 @@ import (
 	"github.com/gocolly/colly/v2"
 	"golang.org/x/text/language"
 
+	"github.com/araddon/dateparse"
+	dt "gorm.io/datatypes"
+
 	"github.com/metatube-community/metatube-sdk-go/common/parser"
 	"github.com/metatube-community/metatube-sdk-go/model"
 	"github.com/metatube-community/metatube-sdk-go/provider"
@@ -41,14 +44,10 @@ func ParseToDate(dateStr string) (dt.Date, error) {
 	layout := "2006/01/02"
 	t, err := time.Parse(layout, dateStr)
 	if err != nil {
-		return dt.Date{}, err
+		return dt.Date{}
 	}
 
-	return dt.Date{
-		Year:  t.Year(),
-		Month: int(t.Month()),
-		Day:   t.Day(),
-	}, nil
+	return dt.Date(t)
 }
 
 func New() *FC2 {
