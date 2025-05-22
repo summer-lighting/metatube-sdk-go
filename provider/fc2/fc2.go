@@ -11,7 +11,6 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly/v2"
 	"golang.org/x/text/language"
-
 	dt "gorm.io/datatypes"
 
 	"github.com/metatube-community/metatube-sdk-go/common/parser"
