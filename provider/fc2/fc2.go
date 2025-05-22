@@ -12,7 +12,6 @@ import (
 	"github.com/gocolly/colly/v2"
 	"golang.org/x/text/language"
 
-	"github.com/araddon/dateparse"
 	dt "gorm.io/datatypes"
 
 	"github.com/metatube-community/metatube-sdk-go/common/parser"
@@ -40,13 +39,9 @@ type FC2 struct {
 }
 
 // ParseToDate 将 "2023/06/05" 格式的字符串转换为 dt.Date
-func ParseToDate(dateStr string) (dt.Date, error) {
+func ParseToDate(dateStr string) (dt.Date) {
 	layout := "2006/01/02"
-	t, err := time.Parse(layout, dateStr)
-	if err != nil {
-		return dt.Date{}
-	}
-
+	t, _ := time.Parse(layout, dateStr)
 	return dt.Date(t)
 }
 
