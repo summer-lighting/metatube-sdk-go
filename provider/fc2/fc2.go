@@ -2,6 +2,7 @@ package fc2
 
 import (
 	"fmt"
+	"time"
 	"net/url"
 	"path"
 	"regexp"
@@ -135,7 +136,7 @@ func (fc2 *FC2) GetMovieInfoByURL(rawURL string) (info *model.MovieInfo, err err
 		key, value = strings.TrimSpace(key), strings.TrimSpace(value)
 		switch key {
 		case "Sale Day", "販売日":
-			info.ReleaseDate = fc2.ParseToDate(value)
+			info.ReleaseDate = ParseToDate(value)
 		case "Product ID", "商品ID":
 			// Fallback only:
 			if productID := fc2util.ParseNumber(value); productID != id {
