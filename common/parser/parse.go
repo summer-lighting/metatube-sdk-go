@@ -40,21 +40,6 @@ func ParseDate(s string) dt.Date {
 	return dt.Date(ParseTime(s))
 }
 
-// ParseToDate 将 "2023/06/05" 格式的字符串转换为 dt.Date
-func ParseDateForFc(dateStr string) (dt.Date, error) {
-	layout := "2006/01/02"
-	t, err := time.Parse(layout, dateStr)
-	if err != nil {
-		return dt.Date{}, err
-	}
-
-	return dt.Date{
-		Year:  t.Year(),
-		Month: int(t.Month()),
-		Day:   t.Day(),
-	}, nil
-}
-
 // ParseDuration parses a string with valid duration format into time.Duration.
 func ParseDuration(s string) time.Duration {
 	s = convertor.ReplaceSpaceAll(s)
