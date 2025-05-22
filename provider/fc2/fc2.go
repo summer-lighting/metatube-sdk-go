@@ -119,7 +119,7 @@ func (fc2 *FC2) GetMovieInfoByURL(rawURL string) (info *model.MovieInfo, err err
 		}
 		key, value = strings.TrimSpace(key), strings.TrimSpace(value)
 		switch key {
-		case "Sale Day", "販売日":
+		case "Sale Day", "上架时间":
 			info.ReleaseDate = parser.ParseDate(value)
 		case "Product ID", "商品ID":
 			// Fallback only:
